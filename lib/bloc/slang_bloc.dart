@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_test2/data/models/slang_model.dart';
+import 'package:bloc_test2/data/repository/slang_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -13,24 +14,14 @@ class SlangBloc extends Bloc<SlangEvent, SlangState> {
 
   @override
   Stream<SlangState> mapEventToState(SlangEvent event) async* {
-    // TODO: implement mapEventToState
     if (event is GetSlangEvent) {
       yield SlangLoading();
+      try {
+        final SlangModel model = await SlangRepository().getSlang();
+        yield SlangLoaded(slang: model);
+      } catch (_) {
+        yield SlangError();
+      }
     }
   }
 }
-
-//  @override
-//   Stream<WeatherState> mapEventToState(
-//     WeatherState currentState,
-//     WeatherEvent event,
-//   ) async* {
-//     if (event is FetchWeather) {
-//       yield WeatherLoading();
-//       try {
-//         final Weather weather = await weatherRepository.getWeather(event.city);
-//         yield WeatherLoaded(weather: weather);
-//       } catch (_) {
-//         yield WeatherError();
-//       }
-//     }

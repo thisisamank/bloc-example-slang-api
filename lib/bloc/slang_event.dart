@@ -1,6 +1,9 @@
 part of 'slang_bloc.dart';
 
 @immutable
-abstract class SlangEvent {}
+abstract class SlangEvent extends Equatable {}
 
-class GetSlangEvent extends SlangEvent {}
+class GetSlangEvent extends SlangEvent {
+  @override
+  List<Object> get props => [];
+}
